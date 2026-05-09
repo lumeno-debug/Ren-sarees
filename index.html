@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>REN Sarees | Authentic Weaves of Bengal</title>
+    <!-- Google Fonts + Tailwind + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        .playfair { font-family: 'Playfair Display', serif; }
+        body { background: #fefaf5; }
+        .glass-card { background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(2px); border-radius: 1.5rem; box-shadow: 0 12px 30px rgba(0,0,0,0.05), 0 0 0 1px rgba(212,175,55,0.2); }
+        .btn-gold { background: linear-gradient(105deg, #b67e2e, #e7c278); box-shadow: 0 4px 12px rgba(183,126,46,0.3); transition: all 0.2s; }
+        .btn-gold:hover { transform: translateY(-2px); background: linear-gradient(105deg, #9f6720, #dbb45c); }
+        .admin-gradient { background: linear-gradient(135deg, #1f1a1c 0%, #3c2632 100%); }
+        .order-card { border-left: 4px solid #d4af37; transition: 0.2s; background: white; }
+        .order-card:hover { background: #fef9ef; transform: translateX(3px); }
+        .modal-overlay { background: rgba(0,0,0,0.7); backdrop-filter: blur(6px); }
+        input, textarea, select { border: 1px solid #f0e0cc; transition: 0.2s; outline: none; }
+        input:focus, textarea:focus, select:focus { border-color: #c7a252; box-shadow: 0 0 0 3px rgba(199,162,82,0.2); }
+        .product-thumb { width: 60px; height: 60px; object-fit: cover; border-radius: 12px; }
+    </style>
+</head>
+<body>
+
+<div id="app" class="max-w-7xl mx-auto px-4 md:px-6 py-5 md:py-8">
+
+    <!-- LOGIN SCREEN -->
+    <div id="loginContainer" class="min-h-[90vh] flex items-center justify-center">
+        <div class="glass-card w-full max-w-md p-8 md:p-10 shadow-xl">
+            <div class="text-center mb-6">
+                <i class="fas fa-sari text-6xl text-amber-700"></i>
+                <h1 class="text-4xl playfair font-bold mt-3 text-gray-800">REN <span class="text-amber-700">Sarees</span></h1>
+                <p class="text-gray-500 text-sm mt-2">Timeless Bengal tradition</p>
+            </div>
+            <div class="space-y-5">
+                <input type="text" id="loginName" placeholder="Full Name" class="w-full px-4 py-3 rounded-xl bg-white">
+                <input type="tel" id="loginPhone" placeholder="Phone Number" class="w-full px-4 py-3 rounded-xl">
+                <input type="email" id="loginEmail" placeholder="Email Address" class="w-full px-4 py-3 rounded-xl">
+                <button id="normalLoginBtn" class="w-full btn-gold text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 text-lg"><i class="fas fa-user-circle"></i> Enter as Customer</button>
+            </div>
+            <div class="mt-7 pt-4 border-t border-amber-200 text-center">
+                <button id="adminTriggerBtn" class="text-sm bg-amber-50 hover:bg-amber-100 text-amber-800 px-5 py-2 rounded-full shadow-sm inline-flex items-center gap-2"><i class="fas fa-lock"></i> LOGIN AS ADMINISTRATOR</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOMER DASHBOARD -->
+    <div id="userDashboard" class="hidden">
+        <!-- Navbar with About & Contact -->
+        <div class="glass-card px-6 py-4 mb-8 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-4">
+                <i class="fas fa-sari text-3xl text-amber-700"></i>
+                <h2 class="text-2xl playfair font-bold text-gray-800">REN Sarees</h2>
+            </div>
+            <div class="flex gap-3">
+                <button id="aboutBtn" class="text-amber-800 hover:bg-amber-100 px-4 py-2 rounded-full transition"><i class="fas fa-info-circle mr-1"></i> About</button>
+                <button id="contactBtn" class="text-amber-800 hover:bg-amber-100 px-4 py-2 rounded-full transition"><i class="fas fa-envelope mr-1"></i> Contact</button>
+                <button id="myOrdersBtn" class="text-amber-800 hover:bg-amber-100 px-4 py-2 rounded-full transition"><i class="fas fa-history mr-1"></i> My Orders</button>
+                <button id="reportBtnCust" class="text-amber-800 hover:bg-amber-100 px-4 py-2 rounded-full transition"><i class="fas fa-flag mr-1"></i> Report</button>
+                <button id="userLogoutBtn" class="bg-white/70 px-4 py-2 rounded-full border border-amber-300 hover:bg-amber-100"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </div>
+
+        <div class="hero-pattern rounded-2xl p-6 mb-8 bg-gradient-to-r from-amber-50 to-orange-50">
+            <p class="text-lg text-gray-700" id="welcomeUserMsg">✨ Welcome to REN Sarees - authentic handlooms ✨</p>
+        </div>
+
+        <!-- Search & Gallery -->
+        <div class="flex justify-between items-center flex-wrap gap-4 mb-6">
+            <input type="text" id="sareeSearch" placeholder="🔍 Search sarees..." class="px-5 py-2 rounded-full border-amber-200 w-64 bg-white shadow-sm">
+        </div>
+        <div id="sareeGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 pb-12"></div>
+    </div>
+
+    <!-- ADMIN DASHBOARD -->
+    <div id="adminDashboard" class="hidden">
+        <div class="admin-gradient rounded-2xl p-6 text-white flex flex-wrap justify-between items-center mb-8">
+            <div><h1 class="text-3xl playfair font-bold"><i class="fas fa-crown mr-2 text-yellow-300"></i>REN Sarees Admin</h1><p class="text-amber-100">Control products, orders & reports</p></div>
+            <button id="adminLogoutBtn" class="bg-white/20 px-5 py-2 rounded-xl"><i class="fas fa-power-off"></i> Exit</button>
+        </div>
+
+        <!-- Admin Tabs -->
+        <div class="flex gap-3 border-b border-amber-200 mb-6">
+            <button id="adminTabProducts" class="px-5 py-2 font-semibold text-amber-800 border-b-2 border-amber-700">📦 Products</button>
+            <button id="adminTabOrders" class="px-5 py-2 font-semibold text-gray-500">📋 Orders</button>
+            <button id="adminTabReports" class="px-5 py-2 font-semibold text-gray-500">⚠️ Reports</button>
+        </div>
+
+        <!-- Products Panel -->
+        <div id="adminProductsPanel" class="space-y-5">
+            <button id="addProductBtn" class="btn-gold text-white px-5 py-2 rounded-xl flex items-center gap-2"><i class="fas fa-plus"></i> Add New Saree</button>
+            <div id="adminProductsList" class="grid gap-4"></div>
+        </div>
+
+        <!-- Orders Panel (Active + History) -->
+        <div id="adminOrdersPanel" class="hidden space-y-6">
+            <div class="flex gap-4 mb-3"><button id="adminActiveTab" class="text-amber-700 font-semibold border-b-2 border-amber-700">Active</button><button id="adminHistoryTab" class="text-gray-500">History</button></div>
+            <div id="adminActiveOrders"></div>
+            <div id="adminHistoryOrders" class="hidden"></div>
+        </div>
+
+        <!-- Reports Panel -->
+        <div id="adminReportsPanel" class="hidden space-y-4">
+            <div id="adminReportsList" class="space-y-4"></div>
+        </div>
+    </div>
+
+    <!-- MODALS: About, Contact, MyOrders, Report, Product Editor, Image Editor, Order Modal... -->
+    <div id="aboutModal" class="fixed inset-0 hidden modal-overlay items-center justify-center z-50"><div class="bg-white rounded-2xl max-w-lg p-6"><h2 class="playfair text-2xl font-bold">🌸 About REN Sarees</h2><p class="mt-3 text-gray-700"><strong>📍 Address:</strong> HAZI MOHAMMAD MOHASIN ROAD, ULUBERIA, HOWRAH - 711308, WB<br><strong>📞 Phone:</strong> 7980482693<br><strong>✉️ Email:</strong> goreyyaffan@gmail.com<br><br>Since 1995, REN Sarees brings you the finest handwoven silks, cottons, and designer drapes. Every saree tells a story of Bengal’s rich heritage.</p><button id="closeAbout" class="mt-5 btn-gold text-white px-4 py-2 rounded-xl">Close</button></div></div>
+    <div id="contactModal" class="fixed inset-0 hidden modal-overlay items-center justify-center z-50"><div class="bg-white rounded-2xl max-w-lg p-6"><h2 class="playfair text-2xl font-bold">📞 Contact Us</h2><p class="mt-2"><strong>💬 We respond within hours – no spam, guaranteed!</strong><br>Call / WhatsApp: 7980482693<br>Email: goreyyaffan@gmail.com<br>Visit our store: HAZI MOHAMMAD MOHASIN ROAD, ULUBERIA</p><button id="closeContact" class="mt-5 btn-gold text-white px-4 py-2 rounded-xl">Close</button></div></div>
+    <div id="myOrdersModal" class="fixed inset-0 hidden modal-overlay items-center justify-center z-50"><div class="bg-white rounded-2xl max-w-2xl w-full p-6"><h2 class="playfair text-2xl">📜 My Order History</h2><div id="customerOrdersList" class="max-h-96 overflow-y-auto mt-3 space-y-3"></div><button id="closeMyOrders" class="mt-4 bg-gray-200 px-4 py-2 rounded-xl">Close</button></div></div>
+    <div id="reportModalCust" class="fixed inset-0 hidden modal-overlay items-center justify-center z-50"><div class="bg-white rounded-2xl max-w-md w-full p-6"><h2 class="text-xl font-bold">📢 Submit a Report</h2><input type="text" id="reportSubject" placeholder="Subject" class="w-full border rounded-xl p-2 mt-3"><textarea id="reportMessage" rows="3" placeholder="Describe issue..." class="w-full border rounded-xl p-2 mt-2"></textarea><button id="sendReportBtn" class="btn-gold text-white w-full py-2 rounded-xl mt-3">Send Report</button><button id="closeReportModal" class="mt-2 text-gray-500">Cancel</button></div></div>
+
+    <!-- Product Editor Modal (Add/Edit) -->
+    <div id="productEditModal" class="fixed inset-0 hidden modal-overlay items-center justify-center z-50"><div class="bg-white rounded-2xl max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto"><h3 id="productEditTitle" class="text-2xl font-bold">Add Product</h3><input type="text" id="prodName" placeholder="Product Name" class="w-full border rounded-xl p-2 mt-3"><input type="number" id="prodPrice" placeholder="Price (₹)" class="w-full border rounded-xl p-2 mt-2"><textarea id="prodDesc" rows="2" placeholder="Description" class="w-full border rounded-xl p-2 mt-2"></textarea><div class="mt-3"><label class="block font-medium">Saree Image</label><input type="file" id="prodImageInput" accept="image/*" class="mt-1"><div class="flex gap-2 mt-2"><img id="prodImagePreview" class="w-24 h-24 object-cover rounded-lg border"><button id="editImageBtn" type="button" class="bg-amber-100 px-3 py-1 rounded-lg text-sm"><i class="fas fa-sliders-h"></i> Edit Image</button></div></div><div class="flex gap-3 mt-5"><button id="saveProductBtn" class="btn-gold text-white px-5 py-2 rounded-xl">Save</button><button id="closeProductModal" class="bg-gray-200 px-4 py-2 rounded-xl">Cancel</button></div></div></div>
+
+    <!-- Image Editor Modal (brightness/contrast/grayscale) -->
+    <div id="imageEditorModal" class="fixed inset-0 hidden modal-overlay items-center justify-center z-50"><div class="bg-white rounded-2xl max-w-md p-5"><h3 class="font-bold">🖌️ Edit Image</h3><canvas id="editCanvas" width="300" height="300" class="border rounded-lg w-full mt-2"></canvas><div class="mt-3"><label>Brightness</label><input type="range" id="brightnessSlider" min="0" max="200" value="100" class="w-full"><label>Contrast</label><input type="range" id="contrastSlider" min="0" max="200" value="100" class="w-full"><label>Grayscale</label><input type="checkbox" id="grayscaleCheckbox" class="ml-2"></div><div class="flex gap-3 mt-4"><button id="applyImageEditBtn" class="bg-amber-700 text-white px-4 py-2 rounded-xl">Apply & Save</button><button id="closeImageEditor" class="bg-gray-200 px-4 py-2 rounded-xl">Cancel</button></div></div></div>
+
+    <!-- Order Modal (same as before) -->
+    <div id="orderModal" class="fixed inset-0 hidden modal-overlay items-center justify-center z-50"><div class="bg-white rounded-2xl max-w-md w-full p-6"><h3 class="text-xl font-bold">Complete Order</h3><div id="orderProductInfo" class="bg-amber-50 p-3 rounded-lg my-3"></div><input type="text" id="orderCustName" placeholder="Full Name" class="w-full border rounded-xl p-2 mb-2"><input type="tel" id="orderCustPhone" placeholder="Phone" class="w-full border rounded-xl p-2 mb-2"><textarea id="orderAddress" rows="2" placeholder="Address" class="w-full border rounded-xl p-2 mb-2"></textarea><button id="finalOrderBtn" class="btn-gold w-full py-2 rounded-xl">Place Order</button><button id="closeOrderModal" class="mt-2 text-gray-500">Close</button></div></div>
+
+<script>
+    // ---------- STORAGE KEYS ----------
+    const STORAGE_PRODUCTS = 'ren_products';
+    const STORAGE_ORDERS = 'ren_orders';
+    const STORAGE_REPORTS = 'ren_reports';
+
+    // Initial empty catalog (no preload)
+    let products = [];   // will load from localStorage or empty
+    let orders = [];
+    let reports = [];
+
+    // Helper load/save
+    function loadData() {
+        products = JSON.parse(localStorage.getItem(STORAGE_PRODUCTS) || '[]');
+        orders = JSON.parse(localStorage.getItem(STORAGE_ORDERS) || '[]');
+        reports = JSON.parse(localStorage.getItem(STORAGE_REPORTS) || '[]');
+        // Ensure each product has imageUrl placeholder if missing
+        if(products.length === 0){
+            // Add a default demo product just to show something (but not preloaded orders! only product)
+            products.push({ id: Date.now(), name: "Bengal Silk Saree", price: 3899, description: "Pure handloom with golden border", imageUrl: "https://placehold.co/400x400/ffe0b5/7a4c1f?text=REN+Saree" });
+            saveProducts();
+        }
+    }
+    function saveProducts() { localStorage.setItem(STORAGE_PRODUCTS, JSON.stringify(products)); }
+    function saveOrders() { localStorage.setItem(STORAGE_ORDERS, JSON.stringify(orders)); }
+    function saveReports() { localStorage.setItem(STORAGE_REPORTS, JSON.stringify(reports)); }
+
+    // Helper: find product by id
+    // ----------------------------- UI State -------------------------
+    let currentView = 'login';
+    let currentUser = null; // {name, phone, email}
+    let selectedProduct = null;
+    let editingProductId = null;
+    let tempImageData = null;     // base64 for editing
+    let originalImageData = null;
+
+    // DOM elements
+    const loginContainer = document.getElementById('loginContainer');
+    const userDash = document.getElementById('userDashboard');
+    const adminDash = document.getElementById('adminDashboard');
+    const sareeGrid = document.getElementById('sareeGrid');
+    const welcomeMsg = document.getElementById('welcomeUserMsg');
+
+    function setView(view) {
+        currentView = view;
+        loginContainer.classList.add('hidden');
+        userDash.classList.add('hidden');
+        adminDash.classList.add('hidden');
+        if(view === 'login') {
+            loginContainer.classList.remove('hidden');
+            sessionStorage.removeItem('ren_admin_auth');
+            sessionStorage.removeItem('ren_user');
+        } else if(view === 'user') {
+            userDash.classList.remove('hidden');
+            renderCustomerProducts();
+            if(currentUser) welcomeMsg.innerText = `✨ Welcome ${currentUser.name}, explore our real handloom sarees ✨`;
+        } else if(view === 'admin') {
+            adminDash.classList.remove('hidden');
+            renderAdminProducts();
+            renderAdminOrdersFull();
+            renderAdminReports();
+            // show products tab by default
+            document.getElementById('adminProductsPanel').classList.remove('hidden');
+            document.getElementById('adminOrdersPanel').classList.add('hidden');
+            document.getElementById('adminReportsPanel').classList.add('hidden');
+            setAdminTabActive('products');
+        }
+    }
+
+    // CUSTOMER: render products
+    function renderCustomerProducts() {
+        let search = document.getElementById('sareeSearch')?.value.toLowerCase() || '';
+        let filtered = products.filter(p => p.name.toLowerCase().includes(search));
+        sareeGrid.innerHTML = '';
+        if(filtered.length === 0) { sareeGrid.innerHTML = '<div class="col-span-full text-center py-20">No sarees available yet. Check back soon!</div>'; return; }
+        filtered.forEach(prod => {
+            const card = document.createElement('div');
+            card.className = 'saree-card glass-card overflow-hidden rounded-2xl bg-white transition-all';
+            card.innerHTML = `
+                <img src="${prod.imageUrl}" class="h-56 w-full object-cover">
+                <div class="p-4"><h3 class="font-bold text-xl playfair">${escapeHtml(prod.name)}</h3><p class="text-sm text-gray-500">${escapeHtml(prod.description)}</p><div class="flex justify-between mt-3"><span class="text-2xl font-bold">₹${prod.price.toLocaleString()}</span><button data-id="${prod.id}" class="orderNowCust bg-amber-700 text-white px-4 py-2 rounded-xl text-sm">Order</button></div></div>
+            `;
+            sareeGrid.appendChild(card);
+        });
+        document.querySelectorAll('.orderNowCust').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.getAttribute('data-id'));
+                const product = products.find(p => p.id === id);
+                if(product) openOrderModal(product);
+            });
+        });
+    }
+
+    function openOrderModal(product) {
+        selectedProduct = product;
+        document.getElementById('orderProductInfo').innerHTML = `<strong>${product.name}</strong> - ₹${product.price.toLocaleString()}`;
+        if(currentUser){
+            document.getElementById('orderCustName').value = currentUser.name;
+            document.getElementById('orderCustPhone').value = currentUser.phone;
+        } else { document.getElementById('orderCustName').value = ''; document.getElementById('orderCustPhone').value = ''; }
+        document.getElementById('orderAddress').value = '';
+        document.getElementById('orderModal').classList.remove('hidden');
+        document.getElementById('orderModal').style.display = 'flex';
+    }
+
+    function submitOrderFromModal() {
+        if(!selectedProduct) return;
+        const name = document.getElementById('orderCustName').value.trim();
+        const phone = document.getElementById('orderCustPhone').value.trim();
+        const addr = document.getElementById('orderAddress').value.trim();
+        if(!name || !phone || !addr) { alert("Fill all fields"); return; }
+        const newOrder = {
+            orderId: Date.now() + Math.floor(Math.random()*10000),
+            productId: selectedProduct.id,
+            productName: selectedProduct.name,
+            productPrice: selectedProduct.price,
+            customerName: name,
+            customerPhone: phone,
+            deliveryAddress: addr,
+            orderDate: new Date().toLocaleString(),
+            status: 'pending'
+        };
+        orders.push(newOrder);
+        saveOrders();
+        alert("✅ Order placed! Admin will confirm soon.");
+        closeOrderModal();
+        if(currentView === 'admin') renderAdminOrdersFull();
+    }
+
+    function closeOrderModal() { document.getElementById('orderModal').style.display = 'none'; document.getElementById('orderModal').classList.add('hidden'); selectedProduct=null; }
+
+    // ------ ADMIN PRODUCT MANAGEMENT ------
+    function renderAdminProducts() {
+        const container = document.getElementById('adminProductsList');
+        if(!container) return;
+        container.innerHTML = '';
+        products.forEach(prod => {
+            const div = document.createElement('div');
+            div.className = 'glass-card p-4 flex flex-wrap justify-between items-center gap-3';
+            div.innerHTML = `
+                <div class="flex gap-3 items-center"><img src="${prod.imageUrl}" class="product-thumb"><div><
